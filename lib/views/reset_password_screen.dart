@@ -11,8 +11,19 @@ class ResetPasswordScreen extends StatefulWidget {
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final emailController = TextEditingController();
+  String? errorMessage;
 
   void resetPassword(BuildContext context) async {
+    if (emailController.text.trim().isEmpty) {
+      setState(() {
+        errorMessage = 'Enter your email first.';
+      });
+      return;
+    } else {
+      setState(() {
+        errorMessage = null;
+      });
+    }
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: emailController.text.trim(),
@@ -72,7 +83,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     controller: emailController,
                     decoration: InputDecoration(labelText: "Enter your email"),
                     style: TextStyle(fontSize: 17.sp),
+                    onChanged: (_) {
+                      if (errorMessage != null) {
+                        setState(() {
+                          errorMessage = null;
+                        });
+                      }
+                    },
                   ),
+                  if (errorMessage != null) ...[
+                    SizedBox(height: 1.h),
+                    Text(
+                      errorMessage!,
+                      style: TextStyle(color: Colors.red, fontSize: 16.sp),
+                    ),
+                  ],
                   SizedBox(height: 3.h),
                   SizedBox(
                     width: 100.w,
