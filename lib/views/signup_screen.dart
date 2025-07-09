@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
-
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -13,17 +12,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  String? _passwordError;
+  String? _errorMessage;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
   void register(BuildContext context) async {
     setState(() {
-      _passwordError = null;
+      _errorMessage = null;
     });
+    if (userNameController.text.trim().isEmpty ||
+        emailController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty ||
+        confirmPasswordController.text.trim().isEmpty) {
+      setState(() {
+        _errorMessage = 'Please fill all fields and try again';
+      });
+      return;
+    }
     if (passwordController.text != confirmPasswordController.text) {
       setState(() {
-        _passwordError = 'Passwords do not match';
+        _errorMessage = "Passwords don't match";
       });
       return;
     }
@@ -62,95 +70,123 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
+      setState(() {
+        _errorMessage = e.toString();
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sign Up")),
+      appBar: AppBar(title: Text("Sign Up", style: TextStyle(fontSize: 20.sp))),
       body: Center(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 24),
-                TextField(
-                  controller: userNameController,
-                  decoration: InputDecoration(labelText: "User Name"),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(labelText: "Email"),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: passwordController,
-                  obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
+          child: Card(
+            margin: EdgeInsets.symmetric(horizontal: 7.w, vertical: 5.h),
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 5.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.account_circle, size: 12.h, color: Colors.grey),
+                  SizedBox(height: 2.h),
+                  TextField(
+                    controller: userNameController,
+                    decoration: InputDecoration(labelText: "User Name"),
+                    style: TextStyle(fontSize: 17.sp),
+                    onChanged: (_) {
+                      if (_errorMessage != null)
+                        setState(() => _errorMessage = null);
+                    },
                   ),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: confirmPasswordController,
-                  obscureText: _obscureConfirmPassword,
-                  decoration: InputDecoration(
-                    labelText: "Confirm Password",
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureConfirmPassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureConfirmPassword = !_obscureConfirmPassword;
-                        });
-                      },
-                    ),
+                  SizedBox(height: 2.5.h),
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(labelText: "Email"),
+                    style: TextStyle(fontSize: 17.sp),
+                    onChanged: (_) {
+                      if (_errorMessage != null)
+                        setState(() => _errorMessage = null);
+                    },
                   ),
-                ),
-                if (_passwordError != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
+                  SizedBox(height: 2.5.h),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    style: TextStyle(fontSize: 17.sp),
+                    onChanged: (_) {
+                      if (_errorMessage != null)
+                        setState(() => _errorMessage = null);
+                    },
+                  ),
+                  SizedBox(height: 2.5.h),
+                  TextField(
+                    controller: confirmPasswordController,
+                    obscureText: _obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      labelText: "Confirm Password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        },
+                      ),
+                    ),
+                    style: TextStyle(fontSize: 17.sp),
+                    onChanged: (_) {
+                      if (_errorMessage != null)
+                        setState(() => _errorMessage = null);
+                    },
+                  ),
+                  if (_errorMessage != null) ...[
+                    SizedBox(height: 1.5.h),
+                    Text(
+                      _errorMessage!,
+                      style: TextStyle(color: Colors.red, fontSize: 15.sp),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                  SizedBox(height: 3.h),
+                  SizedBox(
+                    width: 100.w,
+                    child: ElevatedButton(
+                      onPressed: () => register(context),
                       child: Text(
-                        _passwordError!,
-                        style: TextStyle(color: Colors.red, fontSize: 13),
+                        "Create Account",
+                        style: TextStyle(fontSize: 18.sp),
                       ),
                     ),
                   ),
-                SizedBox(height: 28),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => register(context),
-                    child: Text("Create Account"),
-                  ),
-                ),
-                SizedBox(height: 24),
-              ],
+                ],
+              ),
             ),
           ),
         ),

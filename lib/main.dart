@@ -1,13 +1,21 @@
 import 'package:day1task/views/login_screen.dart';
+import 'package:day1task/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:day1task/Styles/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(
+    ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return const MyApp();
+      },
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
