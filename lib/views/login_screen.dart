@@ -4,9 +4,10 @@ import 'package:day1task/views/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -66,6 +67,19 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+      return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Google sign-in failed';
+      });
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,8 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(labelText: "Email"),
                     style: TextStyle(fontSize: 17.sp),
                     onChanged: (_) {
-                      if (_errorMessage != null)
+                      if (_errorMessage != null) {
                         setState(() => _errorMessage = null);
+                      }
                     },
                   ),
                   SizedBox(height: 2.5.h),
@@ -117,9 +132,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     style: TextStyle(fontSize: 17.sp),
                     onChanged: (_) {
-                      if (_errorMessage != null)
+                      if (_errorMessage != null) {
                         setState(() => _errorMessage = null);
+                      }
                     },
+                  ),
+                  SizedBox(height: 2.5.h),
+                  SizedBox(
+                    width: 100.w,
+                    height: 7.h,
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.login),
+                      label: Text(
+                        'Sign in with Google',
+                        style: TextStyle(fontSize: 17.sp),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        side: BorderSide(color: Colors.grey),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () async {
+                        final userCredential = await signInWithGoogle();
+                        if (userCredential != null) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => ProfileScreen()),
+                          );
+                        }
+                      },
+                    ),
                   ),
                   if (_errorMessage != null) ...[
                     SizedBox(height: 1.5.h),

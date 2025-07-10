@@ -1,5 +1,4 @@
 import 'package:day1task/views/login_screen.dart';
-import 'package:day1task/views/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:day1task/Styles/theme.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -102,8 +104,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: InputDecoration(labelText: "User Name"),
                     style: TextStyle(fontSize: 17.sp),
                     onChanged: (_) {
-                      if (_errorMessage != null)
+                      if (_errorMessage != null) {
                         setState(() => _errorMessage = null);
+                      }
                     },
                   ),
                   SizedBox(height: 2.5.h),
@@ -112,8 +115,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: InputDecoration(labelText: "Email"),
                     style: TextStyle(fontSize: 17.sp),
                     onChanged: (_) {
-                      if (_errorMessage != null)
+                      if (_errorMessage != null) {
                         setState(() => _errorMessage = null);
+                      }
                     },
                   ),
                   SizedBox(height: 2.5.h),
@@ -137,8 +141,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     style: TextStyle(fontSize: 17.sp),
                     onChanged: (_) {
-                      if (_errorMessage != null)
+                      if (_errorMessage != null) {
                         setState(() => _errorMessage = null);
+                      }
                     },
                   ),
                   SizedBox(height: 2.5.h),
@@ -162,8 +167,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     style: TextStyle(fontSize: 17.sp),
                     onChanged: (_) {
-                      if (_errorMessage != null)
+                      if (_errorMessage != null) {
                         setState(() => _errorMessage = null);
+                      }
                     },
                   ),
                   if (_errorMessage != null) ...[

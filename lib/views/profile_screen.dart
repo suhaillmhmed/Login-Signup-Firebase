@@ -42,13 +42,13 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
+                    radius: 60,
+                    backgroundColor: Colors.transparent,
                     child: Icon(
                       Icons.account_circle_outlined,
                       size: 50,
                       color: Colors.grey,
                     ),
-                    radius: 60,
-                    backgroundColor: Colors.transparent,
                   ),
                   SizedBox(height: 2.h),
                   Divider(thickness: 1.5, color: Colors.grey[700]),
