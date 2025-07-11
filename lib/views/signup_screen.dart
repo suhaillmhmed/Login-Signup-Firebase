@@ -43,13 +43,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             email: emailController.text.trim(),
             password: passwordController.text.trim(),
           );
-      // Set displayName if user name is provided
+     
       if (userNameController.text.trim().isNotEmpty) {
         await userCredential.user?.updateDisplayName(
           userNameController.text.trim(),
         );
       }
-      // Send email verification
+     
       await userCredential.user?.sendEmailVerification();
       showDialog(
         context: context,
@@ -64,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Navigator.pop(context); // Back to login
+                    Navigator.pop(context); 
                   },
                   child: Text('OK'),
                 ),

@@ -1,10 +1,10 @@
+import 'package:day1task/views/home_screen.dart';
 import 'package:day1task/views/reset_password_screen.dart';
 import 'package:day1task/views/signup_screen.dart';
 import 'package:day1task/views/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => ProfileScreen()),
+          MaterialPageRoute(builder: (_) => HomeScreen()),
         );
       } else {
         setState(() {
