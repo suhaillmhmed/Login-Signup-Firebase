@@ -51,6 +51,7 @@ class _EditDetailsScreenState extends State<EditDetailsScreen> {
           .update({
             'title': titleController.text.trim(),
             'description': descriptionController.text.trim(),
+            'timestamp': FieldValue.serverTimestamp(),
           });
       if (mounted) Navigator.pop(context);
     } catch (e) {

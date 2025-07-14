@@ -3,6 +3,7 @@ import 'profile_screen.dart';
 import 'add_details_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'edit_details_screen.dart';
+import '../Styles/time_stamps.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -70,7 +71,18 @@ class HomeScreen extends StatelessWidget {
                       data['title'] ?? '',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text(data['description'] ?? ''),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(data['description'] ?? ''),
+                        SizedBox(height: 4),
+                        if (data['timestamp'] != null)
+                          Text(
+                            formatTimestamp(data['timestamp']),
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                      ],
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
