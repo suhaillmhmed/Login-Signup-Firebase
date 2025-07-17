@@ -1,9 +1,8 @@
-import 'package:day1task/views/home_screen.dart';
-import 'package:day1task/views/login_screen.dart';
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:day1task/Styles/theme.dart';
+import 'package:day1task/views/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() async {

@@ -5,6 +5,7 @@ import 'package:day1task/views/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:day1task/views/phone_login_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -101,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Icon(Icons.account_circle, size: 12.h, color: Colors.grey),
                   SizedBox(height: 2.h),
+
                   TextField(
                     controller: emailController,
                     decoration: InputDecoration(labelText: "Email"),
@@ -138,9 +140,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   SizedBox(height: 2.5.h),
+                  // Login button
                   SizedBox(
                     width: 100.w,
-                    height: 7.h,
+                    child: ElevatedButton(
+                      onPressed: () => login(context),
+                      child: Text("Login", style: TextStyle(fontSize: 18.sp)),
+                    ),
+                  ),
+                  if (_errorMessage != null) ...[
+                    SizedBox(height: 1.5.h),
+                    Text(
+                      _errorMessage!,
+                      style: TextStyle(color: Colors.red, fontSize: 15.sp),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                  SizedBox(height: 2.h),
+                  // Google Sign-In Button
+                  SizedBox(
+                    width: 100.w,
                     child: ElevatedButton.icon(
                       icon: Icon(Icons.login),
                       label: Text(
@@ -166,23 +185,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                   ),
-                  if (_errorMessage != null) ...[
-                    SizedBox(height: 1.5.h),
-                    Text(
-                      _errorMessage!,
-                      style: TextStyle(color: Colors.red, fontSize: 15.sp),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                  SizedBox(height: 3.h),
+                  SizedBox(height: 2.h),
+                  // Phone Number Login Button
                   SizedBox(
                     width: 100.w,
                     child: ElevatedButton(
-                      onPressed: () => login(context),
-                      child: Text("Login", style: TextStyle(fontSize: 18.sp)),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => PhoneLoginScreen()),
+                        );
+                      },
+                      child: Text(
+                        "Login with Phone Number",
+                        style: TextStyle(fontSize: 18.sp),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 2.h),
+                  SizedBox(height: 3.h),
                   TextButton(
                     onPressed:
                         () => Navigator.push(
